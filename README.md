@@ -17,6 +17,9 @@ App that lists SpaceX launch missions with Express, React and GraphQL.
   ![screnshot1](./client/screenshots/1.png)
 
   ![screnshot1](./client/screenshots/2.png)
+  
+## SpaceX API v3
+- https://docs.spacexdata.com
 
 ## Tecnologies
 
