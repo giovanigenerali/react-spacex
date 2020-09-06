@@ -10,7 +10,7 @@ import Launches from "./components/Launches";
 import Launch from "./components/Launch";
 
 const client = new ApolloClient({
-  uri: process.env.REACT_APP_GRAPHQL_API
+  uri: process.env.REACT_APP_GRAPHQL_API,
 });
 
 function App() {

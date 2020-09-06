@@ -5,8 +5,26 @@ const {
   GraphQLString,
   GraphQLBoolean,
   GraphQLList,
-  GraphQLSchema
+  GraphQLSchema,
 } = require("graphql");
+
+// Launch Links
+const LaunchLinks = new GraphQLObjectType({
+  name: "links",
+  fields: () => ({
+    mission_patch_small: { type: GraphQLString },
+  }),
+});
+
+// Rocket Type
+const RocketType = new GraphQLObjectType({
+  name: "Rocket",
+  fields: () => ({
+    rocket_id: { type: GraphQLString },
+    rocket_name: { type: GraphQLString },
+    rocket_type: { type: GraphQLString },
+  }),
+});
 
 // Launch Type
 const LaunchType = new GraphQLObjectType({
@@ -19,26 +37,8 @@ const LaunchType = new GraphQLObjectType({
     launch_success: { type: GraphQLBoolean },
     details: { type: GraphQLString },
     links: { type: LaunchLinks },
-    rocket: { type: RocketType }
-  })
-});
-
-// Launch Links
-const LaunchLinks = new GraphQLObjectType({
-  name: "links",
-  fields: () => ({
-    mission_patch_small: { type: GraphQLString }
-  })
-});
-
-// Rocket Type
-const RocketType = new GraphQLObjectType({
-  name: "Rocket",
-  fields: () => ({
-    rocket_id: { type: GraphQLString },
-    rocket_name: { type: GraphQLString },
-    rocket_type: { type: GraphQLString }
-  })
+    rocket: { type: RocketType },
+  }),
 });
 
 // Root Query
@@ -48,21 +48,23 @@ const RootQuery = new GraphQLObjectType({
     launches: {
       type: new GraphQLList(LaunchType),
       resolve() {
-        return api.get("/launches").then(res => res.data);
-      }
+        return api.get("/launches").then(({ data }) => data);
+      },
     },
     launch: {
       type: LaunchType,
       args: {
-        flight_number: { type: GraphQLInt }
+        flight_number: { type: GraphQLInt },
       },
-      resolve(parent, args) {
-        return api.get(`/launches/${args.flight_number}`).then(res => res.data);
-      }
-    }
-  }
+      resolve(root, args) {
+        return api
+          .get(`/launches/${args.flight_number}`)
+          .then(({ data }) => data);
+      },
+    },
+  },
 });
 
 module.exports = new GraphQLSchema({
-  query: RootQuery
+  query: RootQuery,
 });

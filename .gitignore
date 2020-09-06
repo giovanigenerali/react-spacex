@@ -1,4 +1,4 @@
 node_modules
-
-# client
-public
+.DS_Store
+.log
+client_id

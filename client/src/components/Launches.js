@@ -37,7 +37,7 @@ export default class Launches extends Component {
               return console.log("LAUNCHES_QUERY", error);
             }
 
-            return data.launches.map(launch => (
+            return data.launches.map((launch) => (
               <LaunchItem key={launch.flight_number} launch={launch} />
             ));
           }}
